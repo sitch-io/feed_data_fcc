@@ -36,7 +36,7 @@ def travis_boohoo():
         time.sleep(sleep_val)
     return
 
-placate_travis = threading.Thread(travis_boohoo)
+placate_travis = threading.Thread(target=travis_boohoo, name="whatever_man")
 placate_travis.daemon = True
 placate_travis.start()
 response = requests.get(fcc_url, stream=True)
