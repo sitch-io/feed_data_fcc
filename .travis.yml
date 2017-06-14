@@ -5,7 +5,7 @@ python:
 services:
 - docker
 install:
-- pip install requests
+- pip install requests psutil
 script:
 - python ./get_fcc_feed.py
 - docker build -t ${IMAGE_REPOSITORY}:latest .

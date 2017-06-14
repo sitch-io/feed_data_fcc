@@ -1,7 +1,10 @@
 import gzip
 import os
+import psutil
 import requests
 import shutil
+import threading
+import time
 from zipfile import ZipFile
 
 
@@ -12,7 +15,30 @@ fcc_outfile = "./fcc.csv.gz"
 fcc_tempfile = "%s%s" % (fcc_outfile, "tempfile")
 fcc_enclosed_file = "fcc_lic_vw.csv"
 chunk_size = None
+global done_with_things
+done_with_things = False
 
+
+def travis_boohoo():
+    sleep_val = 120
+    sleep_total = 0
+    while done_with_things is False:
+        print("__________________________________________")
+        print("Still running...%s seconds." % sleep_total)
+        vmem = psutil.virtual_memory().percent
+        disk = psutil.disk_usage('/').percent
+        cpu = psutil.cpu_times().user
+        iowait = psutil.cpu_times().iowait
+        print("Memory: %s\tDisk: %s\tUser: %s\tIO Wait: %s" % (vmem, disk,
+                                                               cpu, iowait))
+        print("__________________________________________")
+        sleep_total += sleep_val
+        time.sleep(sleep_val)
+    return
+
+placate_travis = threading.Thread(travis_boohoo)
+placate_travis.daemon = True
+placate_travis.start()
 response = requests.get(fcc_url, stream=True)
 print "Downloading FCC license database.  This will take a while."
 written_so_far = 0
@@ -33,4 +59,6 @@ with open(raw_fcc_file, 'rb') as file_in:
     with gzip.open(fcc_outfile, 'wb') as dest_file:
         shutil.copyfileobj(file_in, dest_file)
 os.remove(raw_fcc_file)
+done_with_things = True
+placate_travis.join()
 print "FCC license database written to %s" % fcc_outfile
