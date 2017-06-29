@@ -1,5 +1,12 @@
 FROM sitch/feed_builder:latest
-COPY fcc.csv.gz /var/lib/sitch/feed/fcc/
+
+RUN mkdir -p /var/lib/sitch/feed/fcc/
+
+COPY get_fcc_feed.py /
+
+RUN apk add -U expect tcl
+
+RUN unbuffer python /get_fcc_feed.py
 
 VOLUME /var/lib/sitch/feed/fcc/
 

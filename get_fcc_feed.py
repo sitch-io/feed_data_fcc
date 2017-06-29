@@ -11,7 +11,7 @@ from zipfile import ZipFile
 fcc_feed_base = "http://data.fcc.gov/download/license-view/"
 fcc_feed_file = "fcc-license-view-data-csv-format.zip"
 fcc_url = "%s%s" % (fcc_feed_base, fcc_feed_file)
-fcc_outfile = "./fcc.csv.gz"
+fcc_outfile = "/var/lib/sitch/feed/fcc/fcc.csv.gz"
 fcc_tempfile = "%s%s" % (fcc_outfile, "tempfile")
 fcc_enclosed_file = "fcc_lic_vw.csv"
 chunk_size = None
@@ -35,6 +35,7 @@ def travis_boohoo():
         sleep_total += sleep_val
         time.sleep(sleep_val)
     return
+
 
 placate_travis = threading.Thread(target=travis_boohoo, name="whatever_man")
 placate_travis.daemon = True
