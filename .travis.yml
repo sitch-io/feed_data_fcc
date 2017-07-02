@@ -7,7 +7,6 @@ services:
 install:
 - pip install requests psutil
 script:
-- python ./get_fcc_feed.py
 - docker build -t ${IMAGE_REPOSITORY}:latest .
 after_success:
 - docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD

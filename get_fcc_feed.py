@@ -12,6 +12,7 @@ fcc_feed_base = "http://data.fcc.gov/download/license-view/"
 fcc_feed_file = "fcc-license-view-data-csv-format.zip"
 fcc_url = "%s%s" % (fcc_feed_base, fcc_feed_file)
 fcc_outfile = "/var/lib/sitch/feed/fcc/fcc.csv.gz"
+# os.makedirs("/var/lib/sitch/feed/fcc/")
 fcc_tempfile = "%s%s" % (fcc_outfile, "tempfile")
 fcc_enclosed_file = "fcc_lic_vw.csv"
 chunk_size = None
