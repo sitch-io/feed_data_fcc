@@ -7,10 +7,13 @@ services:
 install:
 - pip install requests psutil
 script:
+- export ISODATE=`date "+%Y-%m"`
 - docker build -t ${IMAGE_REPOSITORY}:latest .
+- docker tag ${IMAGE_REPOSITORY}:latest ${IMAGE_REPOSITORY}:${ISODATE}
 after_success:
 - docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
 - docker push ${IMAGE_REPOSITORY}:latest
+- docker push ${IMAGE_REPOSITORY}:${ISODATE}
 env:
   global:
   - secure: lnf0uIWWFyZEotKrVTX0kfttIgyf6kmhsTpDOe6pp2EIw46HSWeU05W5ja4C6gFSgh6H74R7g/GfGlKbsYNljvZHgko3gmVfIWpdteMJkfl2TK2TVxh+SGsyW1oVnTIS+4AtN90d1MQ8sitHhJ+6ZB6557qHvlGCN4l1exsEBdrqe++doNRoQuyGM9d/cvTluZ5F3QMJtG/Pm8CQ7gd5iCFwVYcGjTdqy4pXcurQnpNx8vc9PiOAgKSwiEYAghW/atoN0ppO4CWEdNxQhSEP/XFP29obnw11BE0o82ZkUf/Uqz5f7PCdO6nX5EgtunEBL9oIlGSVncxUmvR5F1bppda6660ArA1ZXEm+Uzi+v7gzFj2ItJmvsl4jaIp/PnhzpiA+CvoyK1CxGUWTg/87M8itkGWsNWMZ/ZuFqNypW90pbJo/nKxSih+eY/XJdftItkltob2ATVHBJgQGoPooO9LvBVcfxQNQi8RakDl5cwVUpVKZZtsxCtnB2Ed49KczBvu2b3hyeaJdO4dLNbI2jDXyiHAKrs3IW9cXb6mIQwJdhN/UdKfSFbfe5tVXXnGy/XiVxGRLl7H4Qrmd/N0NN9DYBANObEU8kdLtJuqR+TZI2okuk9ieGe1IH1MX/rH+HhrS+p58hASE2Jo938JuTG/BxBjd4vLk2FESHszBCOE=
