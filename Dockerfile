@@ -6,7 +6,7 @@ ENV OUT_FILE="/var/lib/sitch/feed/fcc/fcc.csv.gz"
 
 RUN mkdir -p /var/lib/sitch/feed/fcc/
 
-RUN curl ${DOWNLOAD_SOURCE} | funzip | gzip > ${OUT_FILE}
+RUN wget --progress=bar:force -O - ${DOWNLOAD_SOURCE} | funzip | gzip > ${OUT_FILE}
 
 VOLUME /var/lib/sitch/feed/fcc/
 
